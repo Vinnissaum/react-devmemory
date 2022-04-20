@@ -56,3 +56,19 @@ export const GameArea = styled.div`
     }
 `;
 
+export const Grid = styled.div`
+    width: 34rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.689rem;
+    padding: 0.6rem 0;
+
+    @media (max-width: 56rem){
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media (max-width: 425px){
+        gap: 0.4rem;
+    }
+`;
+
