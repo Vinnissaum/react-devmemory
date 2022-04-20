@@ -15,7 +15,7 @@ export const Container = styled.div`
 export const Info = styled.div`
     display: flex;
     flex-direction: column;
-    color: #2c4c44;
+    color: #53277E;
 
     @media  (max-width: 56rem){
         margin: 3.25rem 0;
@@ -25,13 +25,12 @@ export const Info = styled.div`
 
 export const Logo = styled.a`
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     span{
-        font-size: 2.625rem;
-        margin-left: 0.5rem;
+        font-size: 1rem;
         font-weight: 500;
-        letter-spacing: -4px;
     }
 `;
 
