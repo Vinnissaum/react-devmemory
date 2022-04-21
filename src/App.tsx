@@ -13,7 +13,7 @@ import { formatTimeElapsed } from './utils/formatTimeElapsed';
 
 const App = () => {
 
-  const [playing, setPlaying] = useState<boolean>(false);
+  const [playing, setPlaying] = useState<boolean>(true);
   const [timeElapsed, setTimeElapsed] = useState<number>(0);
   const [moveCount, setMoveCount] = useState<number>(0);
   const [shownCount, setShownCount] = useState<number>(0);
