@@ -7,6 +7,7 @@ import RestartSvg from './svgs/restart.svg';
 import { GridItemType } from './types/GridItemType';
 import {items} from './data/items';
 import { GridItem } from './components/GridItem';
+import { formatTimeElapsed } from './utils/formatTimeElapsed';
 
 const App = () => {
 
@@ -17,6 +18,57 @@ const App = () => {
   const [gridItems, setGridItems] = useState<GridItemType[]>([]);
 
   useEffect(() => restartHandleClick, []);
+  useEffect(() => {
+    const timer = setInterval(()=> {
+      if(playing){
+        setTimeElapsed(timeElapsed + 1);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  },[playing, timeElapsed]);
+
+  // Verify if opened are equal
+  useEffect(()=>{
+    if(shownCount === 2){
+      let opened = gridItems.filter(item => item.shown === true);
+      if(opened.length === 2){
+        // If both are equal, make every shown permanent
+        if(opened[0].item === opened[1].item){
+          let tmpGrid = [...gridItems];
+          for (let i in gridItems){
+            if(tmpGrid[i].shown){
+              tmpGrid[i].permanentShow = true;
+              tmpGrid[i].shown = false;
+            }
+          }
+          setGridItems(tmpGrid);
+          setShownCount(0);
+
+          setMoveCount(moveCount + 1);
+        } else {
+          // If they are not equal, close all shown
+          setTimeout(() => {
+            let tmpGrid = [...gridItems];
+            for (let i in gridItems){
+              if(gridItems[i].shown){
+                tmpGrid[i].shown = false;
+              }
+            }
+            setGridItems(tmpGrid);
+            setShownCount(0);
+          }, 1000);
+        }
+        setMoveCount(moveCount + 1);
+      }
+    }
+  }, [shownCount, gridItems]);
+
+  // Verify if game is over
+  useEffect(()=>{
+    if (moveCount > 0 && gridItems.every(item => item.permanentShow === true)){
+      setPlaying(false);
+    }
+  }, [moveCount, gridItems]);
 
   const restartHandleClick = () => {
     // Step 1 - game reset
@@ -47,7 +99,15 @@ const App = () => {
   }
 
   const handleItemClick = (index: number) =>{
-
+    if(playing && index !== null && shownCount < 2){
+      let tmpGrid = [...gridItems];
+      
+      if(tmpGrid[index].permanentShow === false && tmpGrid[index].shown === false){
+        tmpGrid[index].shown = true;
+        setShownCount(shownCount + 1);
+      }
+      setGridItems(tmpGrid);
+    }
   }
 
   return(
@@ -58,8 +118,8 @@ const App = () => {
           <span>MATCHING GAME</span>
         </C.Logo>
         <C.InfoArea>
-          <InfoItem label='Tempo:' value='00:00'/>
-          <InfoItem label='Movimentos:' value='0'/>
+          <InfoItem label='Tempo:' value={formatTimeElapsed(timeElapsed)}/>
+          <InfoItem label='Movimentos:' value={moveCount.toString()}/>
         </C.InfoArea>
         <Button label='Restart' icon={RestartSvg} onClick={restartHandleClick}/>
       </C.Info>
