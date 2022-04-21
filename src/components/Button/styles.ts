@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    width: 12.5rem;
-    height: 3.25rem;
+    width: 11.5rem;
+    height: 3.1rem;
     display: flex;
     background-color: #53277E;
     align-items: center;
@@ -10,6 +10,7 @@ export const Container = styled.div`
     transition: all ease .3s;
     border-radius: 0.7rem;
     cursor: pointer;
+    margin-bottom: 0.5rem;
 
     &:hover{
         opacity: 1;

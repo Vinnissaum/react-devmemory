@@ -4,6 +4,8 @@ import { Button } from './components/Button';
 import { InfoItem } from './components/InfoItem';
 import Logo from './svgs/main-logo.svg';
 import RestartSvg from './svgs/restart.svg';
+import PauseSvg from './svgs/pause-icon.svg';
+import ContinueSvg from './svgs/continue-icon.svg';
 import { GridItemType } from './types/GridItemType';
 import {items} from './data/items';
 import { GridItem } from './components/GridItem';
@@ -16,6 +18,7 @@ const App = () => {
   const [moveCount, setMoveCount] = useState<number>(0);
   const [shownCount, setShownCount] = useState<number>(0);
   const [gridItems, setGridItems] = useState<GridItemType[]>([]);
+  const [buttonLabel, setButtonLabel] = useState<string>('Pause');
 
   useEffect(() => restartHandleClick, []);
   useEffect(() => {
@@ -110,6 +113,16 @@ const App = () => {
     }
   }
 
+  const pauseHandleClick = () =>{
+    if(playing){
+      setPlaying(false);
+      setButtonLabel('Continue');
+    }else{
+      setPlaying(true);
+      setButtonLabel('Pause');
+    }
+  }
+
   return(
     <C.Container>
       <C.Info>
@@ -121,6 +134,7 @@ const App = () => {
           <InfoItem label='Tempo:' value={formatTimeElapsed(timeElapsed)}/>
           <InfoItem label='Movimentos:' value={moveCount.toString()}/>
         </C.InfoArea>
+        <Button label={buttonLabel} icon={buttonLabel === 'Continue' ? ContinueSvg:PauseSvg} onClick={pauseHandleClick}/>
         <Button label='Restart' icon={RestartSvg} onClick={restartHandleClick}/>
       </C.Info>
       <C.GameArea>
