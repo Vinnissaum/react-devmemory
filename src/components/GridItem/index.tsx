@@ -11,10 +11,10 @@ type Props = {
 export const GridItem = ({item, onClick}: Props) => {
     return(
         <C.Container onClick={onClick} bgcolor={item.permanentShow || item.shown}>
-            {item.permanentShow === false && item.shown === false &&
+            {!item.shown && !item.permanentShow &&
                 <C.Icon src={cardLogo} alt=''/>
             }
-            {item.permanentShow || item.shown && item.item !== null &&
+            {(item.permanentShow || item.shown) && item.item !== null &&
                 <C.Icon src={items[item.item].icon} alt='' />
             }
         </C.Container>
